@@ -441,17 +441,17 @@ constructor(container: HTMLElement, actions: ISuccessActions) — инициал
 #### Общие методы события:
 
 `
-export interface IEvents {
+interface IEvents {
     on<T extends object>(event: EventName, callback: (data: T) => void): void; - обработчик события
     emit<T extends object>(event: string, data?: T): void; - инициатор события
-    trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void; - колбек триггер события
+    trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void; - функция колбек для события
 }
 `
 
 #### Данные ответа от сервера:
 
 `
-export type ApiListResponse<Type> = {
+type ApiListResponse<Type> = {
     total: number, - общая стоимость товаров
     items: Type[] - список заказанных товаров
 };
@@ -460,14 +460,15 @@ export type ApiListResponse<Type> = {
 #### Методы запросов к серверу:
 
 `
-export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
+type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
 `
 
 ### Типы данных для общих компонентов:
+
 ### Данные обработчика валидности формы:
 
 `
-export interface IFormState {
+interface IFormState {
     valid: boolean; - валидность всей формы
     errors: string[]; - ошибки валидации формы
 }
@@ -476,8 +477,8 @@ export interface IFormState {
 #### Данные контента для отрисовки внутри модального окна:
 
 `
-export interface IModalData {
-    content: HTMLElement; - контейнер, обрисовываемый в модальном окне
+interface IModalData {
+    content: HTMLElement; - элемент HTML, который будет отображаться внутри модального окна.
 }
 `
 
@@ -485,96 +486,107 @@ export interface IModalData {
 #### Товар:
 
 `
-export interface IProduct {
+interface IProduct {
     id: string; - id товара
-    title: string; - имя товара
-    price: number | null; - цена товара
-    description: string; - описание товара
     category: string; - категория товара
     image: string; - изображение товара
+    title: string; - имя товара
+    description: string; - описание товара
+    price: number | null; - цена товара
 }
 `
+
 #### Состояние приложения:
 
 `
-export interface IAppState {
+interface IAppState {
     catalog: IProduct[]; - все товары в каталоге
     basket: IProduct[]; - все id товаров в корзине
     preview: string | null; - id товара в окне детального просмотра
     order: IOrder | null; - данные о заказе
 }
 `
+
 #### Данные доставки:
 
 `
-export interface IDeliveryForm {
+interface IDeliveryForm {
     payment: string; - способ оплаты
     address: string; - адрес доставки
 }
 `
+
 #### Контактные данные:
 
 `
-export interface IContactForm {
+interface IContactForm {
     email: string; - электронная почта
     phone: string; - номер телефона
 }
 `
+
 #### Данные всего заказа:
 
 `
-export interface IOrder extends IDeliveryForm, IContactForm {
+interface IOrder extends IDeliveryForm, IContactForm {
     total: number; - общая сумма заказа
     items: string[]; - id всех товаров в заказе
 }
 `
+
 #### Данные ответа сервера на заказ:
 
 `
-export interface IOrderResult {
+interface IOrderResult {
     id: string; - id заказа
     total: number; - общая сумма заказа
 }
 `
+
 #### Ошибки Форм:
 
 `
-export type FormErrors = Partial<Record<keyof IOrder, string>>;
+type FormErrors = Partial<Record<keyof IOrder, string>>;
 `
+
 #### Данные для отображения карточки:
 
 `
-export interface ICard extends IProduct {
+interface ICard extends IProduct {
     buttonTitle?: string; - textContent для кнопки покупки
 }
 `
+
 #### Данные для отображения корзины:
 
 `
-export interface IBasketView {
+interface IBasketView {
     items: HTMLElement[]; - список карточек в корзине
     total: number; - итоговая стоимость товаров в корзине
 }
 `
+
 #### Данные для отображения главной страницы:
 
 `
-export interface IPage {
+interface IPage {
     counter: number; - значение счетчика корзины
     catalog: HTMLElement[]; - список карточек в каталоге
 }
 `
+
 #### Данные для отображения успешного заказа:
 
 `
-export interface ISuccess {
+interface ISuccess {
     total: number; - итоговая стоимость товара
 }
 `
+
 #### Действия, передаваемые в конструктор:
 
 `
-export interface IActions {
+interface IActions {
     onClick: (event: MouseEvent) => void; - действие нажатия мышки
 }
 `
@@ -582,7 +594,7 @@ export interface IActions {
 #### Действия, передаваемые в конструктор успешного заказа:
 
 `
-export interface ISuccessActions {
+interface ISuccessActions {
     onClick: () => void; - любое действие
 }
 `
