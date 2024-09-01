@@ -392,6 +392,7 @@ constructor(container: HTMLElement, eventDispatcher: IEvents) — инициал
 
 - _cardPaymentButton: HTMLElement — кнопка выбора оплаты картой.
 - _cashPaymentButton: HTMLElement — кнопка выбора оплаты наличными.
+
 Конструктор:
 
 constructor(container: HTMLFormElement, eventDispatcher: IEvents, actions?: IActions) — инициализирует элементы формы и устанавливает обработчики событий.
@@ -409,6 +410,8 @@ set deliveryAddress(value: string) — устанавливает адрес д�
 Конструктор:
 
 constructor(container: HTMLFormElement, eventDispatcher: IEvents) — принимает контейнер формы и объект для управления событиями.
+- container: Контейнер формы.
+- eventDispatcher: Объект для управления событиями.
 
 Методы:
 
