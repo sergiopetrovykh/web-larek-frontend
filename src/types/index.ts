@@ -28,9 +28,9 @@ export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
 
 // Интерфейс API-клиента
 export interface ILarekAPI {
-	getProductList: () => Promise<IProduct[]>;
-	getProductItem: (id: string) => Promise<IProduct>;
-	orderProducts: (order: IOrder) => Promise<IOrderResult>;
+	fetchProductList: () => Promise<IProduct[]>;
+	fetchProductDetails: (id: string) => Promise<IProduct>;
+	submitOrder: (order: IOrder) => Promise<IOrderResult>;
 }
 
 // Интерфейс продукта, как он приходит с API
