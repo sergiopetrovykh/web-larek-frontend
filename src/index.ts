@@ -13,6 +13,9 @@ import { BasketView } from './components/BasketView'; // Обновлено на
 import { DeliveryForm, ContactForm } from './components/DeliveryForm';
 import { Success } from './components/SuccessView';
 
+import { EventConstants } from './event-constants';
+import { EventTypes } from './events.enum';
+
 // Создание объектов для управления событиями и API
 const events = new EventEmitter();
 const api = new LarekAPI(CDN_URL, API_URL);
@@ -34,24 +37,25 @@ const page = new Page(document.body, events);
 const modal = new Modal(ensureElement<HTMLElement>('#modal-container'), events);
 const basket = new BasketView(cloneTemplate(basketTemplate), events); // Используется правильный класс
 const delivery = new DeliveryForm(cloneTemplate(deliveryTemplate), events, {
-	onClick: (ev: Event) => events.emit('payment:toggle', ev.target as HTMLElement),
+	onClick: (ev: Event) =>
+		events.emit('payment:toggle', ev.target as HTMLElement),
 });
 const contact = new ContactForm(cloneTemplate(contactTemplate), events);
 
 /// Обработка событий ///
 
 // Обновления каталога товаров
-events.on<CatalogChangeEvent>('items:changed', () => {
+events.on<CatalogChangeEvent>(EventConstants[EventTypes.ItemsChanged], () => {
 	page.catalog = appData.catalog.map((item) => {
-		const card = new Card(cloneTemplate(cardCatalogTemplate), {
-			onClick: () => events.emit('card:select', item),
-		});
-		return card.render({
-			title: item.title,
-			image: item.image,
-			price: item.price,
-			category: item.category,
-		});
+			const card = new Card(cloneTemplate(cardCatalogTemplate), {
+					onClick: () => events.emit(EventConstants[EventTypes.CardSelect], item),
+			});
+			return card.render({
+					title: item.title,
+					image: item.image,
+					price: item.price,
+					category: item.category,
+			});
 	});
 });
 
@@ -145,7 +149,8 @@ events.on('order:open', () => {
 events.on('payment:toggle', (target: HTMLElement) => {
 	if (!target.classList.contains('button_alt-active')) {
 		delivery.togglePaymentButtons(target);
-		appData.order.payment = PaymentMethods[target.getAttribute('name') || ''] || ''; // Добавлен fallback на пустую строку
+		appData.order.payment =
+			PaymentMethods[target.getAttribute('name') || ''] || ''; // Добавлен fallback на пустую строку
 		console.log(appData.order);
 	}
 });
@@ -238,6 +243,4 @@ events.on('modal:close', () => {
 api
 	.fetchProductList()
 	.then(appData.setCatalog.bind(appData))
-	.catch((err) => {
-		console.log(err);
-	});
+	.catch(console.error);

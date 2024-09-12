@@ -33,11 +33,9 @@ export class Card extends View<ICard> {
 		}
 	}
 
-	disablePriceButton(value: number | null) {
-		if (!value) {
-			if (this._button) {
-				this._button.disabled = true;
-			}
+	disablePurchaseButton(value: number | null) {
+		if (!value && this._button) {
+			this.setElementDisabled(this._button, true); // Используем метод setDisable вместо this._button.disabled = true;
 		}
 	}
 
@@ -50,7 +48,7 @@ export class Card extends View<ICard> {
 	}
 
 	set title(value: string) {
-		this.setTextContent(this._title, value);
+		this.setTextContent(this._title, value); // Используем метод setTextContent вместо this._title.textContent = value;
 	}
 
 	get title(): string {
@@ -62,7 +60,7 @@ export class Card extends View<ICard> {
 			this._price,
 			value ? `${value.toString()} синапсов` : 'Бесценно'
 		);
-		this.disablePriceButton(value);
+		this.disablePurchaseButton(value);
 	}
 
 	get price(): number {
@@ -71,7 +69,7 @@ export class Card extends View<ICard> {
 
 	set category(value: string) {
 		this.setTextContent(this._category, value);
-		this._category.classList.add(categoryClasses[value]);
+		this.toggleCssClass(this._category, categoryClasses[value], true); // Используем toggleClass вместо classList.add;
 	}
 
 	get category(): string {
@@ -79,7 +77,7 @@ export class Card extends View<ICard> {
 	}
 
 	set index(value: string) {
-		this._index.textContent = value;
+		this.setTextContent(this._index, value); // Используем setTextContent вместо this._index.textContent = value;
 	}
 
 	get index(): string {
@@ -91,12 +89,12 @@ export class Card extends View<ICard> {
 	}
 
 	set description(value: string) {
-		this.setTextContent(this._description, value);
+		this.setTextContent(this._description, value); // Используем setTextContent вместо this._description.textContent = value;
 	}
 
 	set buttonTitle(value: string) {
 		if (this._button) {
-			this._button.textContent = value;
+			this.setTextContent(this._button, value); // Используем setTextContent вместо this._button.textContent = value;
 		}
 	}
 }

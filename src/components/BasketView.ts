@@ -13,7 +13,10 @@ export class BasketView extends View<IBasketView> {
 
 		this._list = ensureElement<HTMLElement>('.basket__list', this.container);
 		this._total = ensureElement<HTMLElement>('.basket__price', this.container);
-		this._button = ensureElement<HTMLButtonElement>('.basket__button', this.container);
+		this._button = ensureElement<HTMLButtonElement>(
+			'.basket__button',
+			this.container
+		);
 
 		if (this._button) {
 			this._button.addEventListener('click', () => {
@@ -22,11 +25,11 @@ export class BasketView extends View<IBasketView> {
 		}
 
 		this.items = [];
-		this._button.disabled = true;
+		this.toggleSubmitButton(true); // Используем метод toggleSubmitButton вместо установки disabled напрямую
 	}
 
 	toggleSubmitButton(isDisabled: boolean) {
-		this._button.disabled = isDisabled;
+		this.setElementDisabled(this._button, isDisabled); // Используем метод setDisable из родительского класса Component
 	}
 
 	set items(items: HTMLElement[]) {
