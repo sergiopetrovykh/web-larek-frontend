@@ -1,4 +1,5 @@
 // event-constants.ts
+// создайл объект, сопоставляющий значения из перечисления
 import { EventTypes } from './events.enum';
 
 export const EventConstants = {

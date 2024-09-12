@@ -1,4 +1,5 @@
 // events.enum.ts
+// определяю перечисление для всех событий
 export enum EventTypes {
 	ItemsChanged = 'items:changed',
 	CardSelect = 'card:select',

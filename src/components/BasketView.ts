@@ -29,7 +29,7 @@ export class BasketView extends View<IBasketView> {
 	}
 
 	toggleSubmitButton(isDisabled: boolean) {
-		this.setElementDisabled(this._button, isDisabled); // Используем метод setDisable из родительского класса Component
+		this.setElementDisabled(this._button, isDisabled); // Используем метод setElementDisabled из родительского класса Component
 	}
 
 	set items(items: HTMLElement[]) {

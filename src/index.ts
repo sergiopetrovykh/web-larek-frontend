@@ -13,8 +13,8 @@ import { BasketView } from './components/BasketView'; // Обновлено на
 import { DeliveryForm, ContactForm } from './components/DeliveryForm';
 import { Success } from './components/SuccessView';
 
-import { EventConstants } from './event-constants';
-import { EventTypes } from './events.enum';
+import { EventConstants } from './event-constants'; // добавлены импорты
+import { EventTypes } from './events.enum'; // добавлены импорты
 
 // Создание объектов для управления событиями и API
 const events = new EventEmitter();
@@ -35,7 +35,7 @@ const appData = new AppState({}, events);
 // Глобальные контейнеры
 const page = new Page(document.body, events);
 const modal = new Modal(ensureElement<HTMLElement>('#modal-container'), events);
-const basket = new BasketView(cloneTemplate(basketTemplate), events); // Используется правильный класс
+const basket = new BasketView(cloneTemplate(basketTemplate), events);
 const delivery = new DeliveryForm(cloneTemplate(deliveryTemplate), events, {
 	onClick: (ev: Event) =>
 		events.emit('payment:toggle', ev.target as HTMLElement),
@@ -45,17 +45,18 @@ const contact = new ContactForm(cloneTemplate(contactTemplate), events);
 /// Обработка событий ///
 
 // Обновления каталога товаров
+// По рекомендации ревьюера items:changed и другие события вынес в enum , чтобы автоматически типизировать и создать константный объект для них. Сказали, что так я не ошибусь в написании событий в разных местах проекта.
 events.on<CatalogChangeEvent>(EventConstants[EventTypes.ItemsChanged], () => {
 	page.catalog = appData.catalog.map((item) => {
-			const card = new Card(cloneTemplate(cardCatalogTemplate), {
-					onClick: () => events.emit(EventConstants[EventTypes.CardSelect], item),
-			});
-			return card.render({
-					title: item.title,
-					image: item.image,
-					price: item.price,
-					category: item.category,
-			});
+		const card = new Card(cloneTemplate(cardCatalogTemplate), {
+			onClick: () => events.emit(EventConstants[EventTypes.CardSelect], item),
+		});
+		return card.render({
+			title: item.title,
+			image: item.image,
+			price: item.price,
+			category: item.category,
+		});
 	});
 });
 
@@ -117,7 +118,7 @@ events.on('basket:changed', (items: IProduct[]) => {
 	});
 	const total = items.reduce((total, item) => total + item.price, 0);
 	basket.totalPrice = total; // Используется правильное свойство
-	basket.toggleSubmitButton(total === 0); // Убедитесь, что метод toggleSubmitButton существует в классе BasketView
+	basket.toggleSubmitButton(total === 0);
 	appData.order.total = total;
 });
 

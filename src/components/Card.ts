@@ -69,7 +69,7 @@ export class Card extends View<ICard> {
 
 	set category(value: string) {
 		this.setTextContent(this._category, value);
-		this.toggleCssClass(this._category, categoryClasses[value], true); // Используем toggleClass вместо classList.add;
+		this.toggleCssClass(this._category, categoryClasses[value], true); // Используем toggleCssClass вместо classList.add;
 	}
 
 	get category(): string {
