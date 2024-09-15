@@ -6,6 +6,7 @@ import { ensureElement } from '../utils/utils';
 export class DeliveryForm extends Form<IDeliveryForm> {
 	protected _cardButton: HTMLButtonElement;
 	protected _cashButton: HTMLButtonElement;
+	protected _selectedPayment: string = ''; // Хранит выбранный способ оплаты
 
 	constructor(container: HTMLFormElement, events: IEvents, actions?: IActions) {
 		super(container, events);
@@ -18,17 +19,31 @@ export class DeliveryForm extends Form<IDeliveryForm> {
 			'button[name="cash"]',
 			this.container
 		);
-		this._cardButton.classList.add('button_alt-active');
+		this.toggleCssClass(this._cardButton, 'button_alt-active', true); // По умолчанию активен способ оплаты картой
 
+		// Добавляем обработчики событий на кнопки
 		if (actions?.onClick) {
 			this._cardButton.addEventListener('click', actions.onClick);
 			this._cashButton.addEventListener('click', actions.onClick);
 		}
 	}
 
+	// Метод для переключения состояния кнопок
 	togglePaymentButtons(target: HTMLElement) {
-		this._cardButton.classList.toggle('button_alt-active');
-		this._cashButton.classList.toggle('button_alt-active');
+		if (target === this._cardButton) {
+			this.toggleCssClass(this._cardButton, 'button_alt-active', true);
+			this.toggleCssClass(this._cashButton, 'button_alt-active', false);
+			this._selectedPayment = 'card'; // Устанавливаем способ оплаты "карта"
+		} else if (target === this._cashButton) {
+			this.toggleCssClass(this._cardButton, 'button_alt-active', false);
+			this.toggleCssClass(this._cashButton, 'button_alt-active', true);
+			this._selectedPayment = 'cash'; // Устанавливаем способ оплаты "наличные"
+		}
+	}
+
+	// Метод для получения выбранного способа оплаты
+	getSelectedPayment(): string {
+		return this._selectedPayment;
 	}
 
 	set address(value: string) {

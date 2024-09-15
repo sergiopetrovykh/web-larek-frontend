@@ -148,12 +148,10 @@ events.on('order:open', () => {
 
 // Смена способа оплаты
 events.on('payment:toggle', (target: HTMLElement) => {
-	if (!target.classList.contains('button_alt-active')) {
-		delivery.togglePaymentButtons(target);
-		appData.order.payment =
-			PaymentMethods[target.getAttribute('name') || ''] || ''; // Добавлен fallback на пустую строку
-		console.log(appData.order);
-	}
+    delivery.togglePaymentButtons(target); // Переключаем кнопки в зависимости от цели клика
+    const selectedPayment = delivery.getSelectedPayment(); // Получаем выбранный способ оплаты
+    appData.order.payment = selectedPayment || ''; // Добавлен fallback на пустую строку
+    console.log(appData.order);
 });
 
 // Изменение состояния валидации форм
