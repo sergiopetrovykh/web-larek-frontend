@@ -24,6 +24,6 @@ export class Success extends View<ISuccess> {
 	}
 	// Установка текста итоговой информации
 	set transactionDetails(value: string) {
-		this._total.textContent = `Списано ${value} синапсов`;
+		this.setTextContent(this._total, `Списано ${value} синапсов`);
 	}
 }
